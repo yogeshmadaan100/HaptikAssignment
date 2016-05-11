@@ -1,6 +1,9 @@
 package com.haptik.haptikassignment.models;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,13 +13,30 @@ import java.util.List;
 /**
  * Created by yogeshmadaan on 11/05/16.
  */
-public class ChatResponse {
+public class ChatResponse implements Parcelable{
     @SerializedName("count")
     @Expose
     private int count;
     @SerializedName("messages")
     @Expose
     private List<Message> messages = new ArrayList<Message>();
+
+    protected ChatResponse(Parcel in) {
+        count = in.readInt();
+        messages = in.createTypedArrayList(Message.CREATOR);
+    }
+
+    public static final Creator<ChatResponse> CREATOR = new Creator<ChatResponse>() {
+        @Override
+        public ChatResponse createFromParcel(Parcel in) {
+            return new ChatResponse(in);
+        }
+
+        @Override
+        public ChatResponse[] newArray(int size) {
+            return new ChatResponse[size];
+        }
+    };
 
     /**
      *
@@ -54,4 +74,14 @@ public class ChatResponse {
         this.messages = messages;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(count);
+        dest.writeTypedList(messages);
+    }
 }

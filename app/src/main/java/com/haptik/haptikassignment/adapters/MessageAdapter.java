@@ -66,4 +66,9 @@ public class MessageAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemViewType(int position) {
         return position;
     }
+
+    public interface onChatClicked
+    {
+        void onChatClicked(View itemView,Message message, boolean isDefaultSelection);
+    }
 }

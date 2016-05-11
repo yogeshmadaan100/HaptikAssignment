@@ -39,9 +39,9 @@ public class ViewHolderDirectMessageSent extends RecyclerView.ViewHolder {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String date = dateFormat.format(dateFormat.format(messageDate));
+//        String date = dateFormat.format(dateFormat.format(messageDate));
 //        date = date.substring(0,date.length()-4);
-        textMessageTime.setText(date);
+        textMessageTime.setText(dateFormat.format(messageDate));
         imgMessageStatus.setImageResource(R.drawable.icon_message_sent);
     }
 }

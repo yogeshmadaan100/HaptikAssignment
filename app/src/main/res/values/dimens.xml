@@ -14,6 +14,7 @@
     <dimen name="text_28">28sp</dimen>
 
     <!-- MARGINS -->
+    <dimen name="margins_2">2dp</dimen>
     <dimen name="margins_5">5dp</dimen>
     <dimen name="margins_10">10dp</dimen>
     <dimen name="margins_15">15dp</dimen>
@@ -24,4 +25,5 @@
     <dimen name="margins_40">40dp</dimen>
 
     <dimen name="chat_message_logo">60dp</dimen>
+    <dimen name="dimen_min_width">100dp</dimen>
 </resources>
