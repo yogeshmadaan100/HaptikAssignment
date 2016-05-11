@@ -7,7 +7,7 @@ import android.app.Application;
  */
 public class MyApplication extends Application {
     private MyApplication _instance;
-
+    public static final String _user = "john-t";
     @Override
     public void onCreate() {
         super.onCreate();
