@@ -1,7 +1,8 @@
 package com.haptik.haptikassignment.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
@@ -9,7 +10,7 @@ import android.view.View;
 import com.haptik.haptikassignment.R;
 import com.haptik.haptikassignment.fragments.ChatFragment;
 import com.haptik.haptikassignment.interfaces.ToolbarInterface;
-import com.haptik.haptikassignment.models.Message;
+import com.haptik.haptikassignment.models.Profile;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,8 +27,10 @@ public class ChatActivity extends AppCompatActivity implements ChatFragment.onCh
     }
 
     @Override
-    public void onChatClicked(View itemView, Message message, boolean isDefaultSelection) {
-
+    public void onChatClicked(View itemView, Profile profile, boolean isDefaultSelection) {
+        Intent intent = new Intent(this,ProfileActivity.class);
+        intent.putExtra(ProfileActivity.KEY_PROFILE,profile);
+        startActivity(intent);
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.haptik.haptikassignment.R;
 import com.haptik.haptikassignment.models.Message;
+import com.haptik.haptikassignment.utils.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +24,7 @@ public class ViewHolderDirectMessageSent extends RecyclerView.ViewHolder {
     SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
     SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-    public ViewHolderDirectMessageSent (final Context context,View itemView, Message messages)
+    public ViewHolderDirectMessageSent (final Context context,View itemView, final Message messages)
     {
         super(itemView);
         textMessage = (TextView) itemView.findViewById(R.id.txt_message);
@@ -43,5 +44,11 @@ public class ViewHolderDirectMessageSent extends RecyclerView.ViewHolder {
 //        date = date.substring(0,date.length()-4);
         textMessageTime.setText(dateFormat.format(messageDate));
         imgMessageStatus.setImageResource(R.drawable.icon_message_sent);
+        textMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.copyToClipboard(context,messages.getBody());
+            }
+        });
     }
 }

@@ -22,10 +22,12 @@ public class MessageAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     List<Message> messages;
     int resource;
     DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-    public MessageAdapter(Context context, List<Message> messages) {
+    onChatClicked onChatClicked;
+    public MessageAdapter(Context context, List<Message> messages, onChatClicked onChatClicked) {
         this.context = context;
         this.resource = R.layout.layout_direct_message_received;
         this.messages = messages;
+        this.onChatClicked = onChatClicked;
 
     }
 
@@ -42,7 +44,7 @@ public class MessageAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
         else{
             rowLayout = R.layout.layout_direct_message_received;
             view = LayoutInflater.from(parent.getContext()).inflate(rowLayout,parent,false);
-            return new ViewHolderDirectMessageReceived(context,view,messages.get(position));
+            return new ViewHolderDirectMessageReceived(context,view,messages.get(position),onChatClicked);
         }
 
     }

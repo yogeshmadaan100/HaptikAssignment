@@ -18,6 +18,7 @@ import com.haptik.haptikassignment.interfaces.ToolbarInterface;
 import com.haptik.haptikassignment.managers.ChatManager;
 import com.haptik.haptikassignment.models.ChatResponse;
 import com.haptik.haptikassignment.models.Message;
+import com.haptik.haptikassignment.models.Profile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class ChatFragment extends Fragment implements MessageAdapter.onChatClick
     onChatClickedInterface onChatClickedInterface;
     ToolbarInterface toolbarInterface;
     static HashMap<String,Integer> colors = new HashMap<>() ;
-
+    private HashMap<String,Integer> messagesHasmap = new HashMap<>();
     public ChatFragment() {
         // Required empty public constructor
     }
@@ -93,7 +94,7 @@ public class ChatFragment extends Fragment implements MessageAdapter.onChatClick
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary);
         messageList = new ArrayList<>();
         recyclerView.setHasFixedSize(true);
-        messageAdapter = new MessageAdapter(getActivity(), messageList);
+        messageAdapter = new MessageAdapter(getActivity(), messageList,this);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(messageAdapter);
@@ -168,6 +169,7 @@ public class ChatFragment extends Fragment implements MessageAdapter.onChatClick
                 messageList.clear();
             messageList.addAll(chatResponse.getMessages());
             messageAdapter.notifyDataSetChanged();
+            resetHashmap(chatResponse.getMessages());
             stopRefreshing();
 
 
@@ -176,12 +178,16 @@ public class ChatFragment extends Fragment implements MessageAdapter.onChatClick
 
     @Override
     public void onChatClicked(View itemView, Message message, boolean isDefaultSelection) {
-
+        Profile profile = new Profile();
+        profile.setImageUrl(message.getImageUrl());
+        profile.setName(message.getName());
+        profile.setMessageCount(messagesHasmap.get(message.getName()));
+        onChatClickedInterface.onChatClicked(itemView, profile, isDefaultSelection);
     }
 
     public  interface onChatClickedInterface
     {
-        void onChatClicked(View itemView,Message message, boolean isDefaultSelection);
+        void onChatClicked(View itemView, Profile profile, boolean isDefaultSelection);
     }
     public static int getColors(String name)
     {
@@ -191,5 +197,17 @@ public class ChatFragment extends Fragment implements MessageAdapter.onChatClick
             colors.put(name, Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
         return colors.get(name).intValue();
 
+    }
+
+    public void resetHashmap(List<Message> messages)
+    {
+        messagesHasmap = new HashMap<>();
+        for(Message message:messages)
+        {
+            if(messagesHasmap.get(message.getName())!=null)
+                messagesHasmap.put(message.getName(),messagesHasmap.get(message.getName())+1);
+            else
+                messagesHasmap.put(message.getName(),1);
+        }
     }
 }

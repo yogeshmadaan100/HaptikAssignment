@@ -50,7 +50,7 @@
                 android:paddingRight="@dimen/margins_25"
                 android:text="Contact Name"
                 android:textColor="@android:color/black"
-                android:textIsSelectable="true"
+                android:textIsSelectable="false"
                 android:textSize="@dimen/text_14"
 
                 />

@@ -6,7 +6,6 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +15,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.haptik.haptikassignment.R;
 import com.haptik.haptikassignment.fragments.ChatFragment;
 import com.haptik.haptikassignment.models.Message;
+import com.haptik.haptikassignment.utils.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,7 +31,8 @@ public class ViewHolderDirectMessageReceived extends RecyclerView.ViewHolder {
     SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
     SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     CardView cardView;
-    public ViewHolderDirectMessageReceived(final Context context, View itemView, Message messages)
+    MessageAdapter.onChatClicked onChatClicked ;
+    public ViewHolderDirectMessageReceived(final Context context, final View itemView, final Message messages, final MessageAdapter.onChatClicked onChatClicked)
     {
         super(itemView);
         cardView = (CardView) itemView.findViewById(R.id.card_view);
@@ -49,7 +50,6 @@ public class ViewHolderDirectMessageReceived extends RecyclerView.ViewHolder {
         Date messageDate = null;
         try {
              messageDate = inputDateFormat.parse(messages.getMessageTime());
-            Log.e("message date is",""+messageDate.toLocaleString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -58,13 +58,31 @@ public class ViewHolderDirectMessageReceived extends RecyclerView.ViewHolder {
         textMessageTime.setText(dateFormat.format(messageDate));
         imgMessageStatus.setVisibility(View.GONE);
 //        Glide.with(context).load(messages.getImageUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(imgProfilePic);
-        Glide.with(context).load(messages.getImageUrl()).asBitmap().centerCrop().into(new BitmapImageViewTarget(imgProfilePic) {
+        Glide.with(context).load(messages.getImageUrl()).asBitmap().centerCrop().error(R.mipmap.ic_launcher).placeholder(R.mipmap.ic_launcher).into(new BitmapImageViewTarget(imgProfilePic) {
             @Override
             protected void setResource(Bitmap resource) {
                 RoundedBitmapDrawable circularBitmapDrawable =
                         RoundedBitmapDrawableFactory.create(context.getResources(), resource);
                 circularBitmapDrawable.setCircular(true);
                 imgProfilePic.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+        txtSenderName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onChatClicked.onChatClicked(itemView,messages,false);
+            }
+        });
+        textMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.copyToClipboard(context,messages.getBody());
+            }
+        });
+        imgProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onChatClicked.onChatClicked(itemView,messages,false);
             }
         });
     }

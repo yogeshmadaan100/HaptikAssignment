@@ -3,6 +3,7 @@ package com.haptik.haptikassignment.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -42,7 +43,17 @@ public class Utils {
 
     }
 
-
+    public static void copyToClipboard(Context context, String stringYouExtracted) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setText(stringYouExtracted);
+        } else {
+            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", stringYouExtracted);
+            clipboard.setPrimaryClip(clip);
+        }
+        Toast.makeText(context,"Message Copied",Toast.LENGTH_SHORT).show();
+    }
 
 
 }

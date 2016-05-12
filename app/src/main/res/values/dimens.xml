@@ -26,4 +26,9 @@
 
     <dimen name="chat_message_logo">60dp</dimen>
     <dimen name="dimen_min_width">100dp</dimen>
+
+    <!-- Profile Activity -->
+    <dimen name="expandedTitleMarginStart">48dp</dimen>
+    <dimen name="expandedTitleMarginEnd">64dp</dimen>
+    <dimen name="profile_backdrop_height">256dp</dimen>
 </resources>
